@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AxiomStrat â€” how the tool is verified</title>
+<title>AxiomStrat — how the tool is verified</title>
 <meta name="description" content="How AxiomStrat proves its backtests: an independent replay harness that rechecks every trade from raw price data. 62 checks, 5 strategy scenarios, 0 failures.">
 <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +36,7 @@
     <div class="hero-metrics">
       <div class="hm"><span class="hmv">62/62</span><span class="hmk">checks pass</span></div>
       <div class="hm"><span class="hmv">5</span><span class="hmk">strategy scenarios</span></div>
-      <div class="hm"><span class="hmv">Â±$0.03</span><span class="hmk">equity curve tolerance</span></div>
+      <div class="hm"><span class="hmv">±$0.03</span><span class="hmk">equity curve tolerance</span></div>
       <div class="hm"><span class="hmv">0</span><span class="hmk">engine code reused</span></div>
     </div>
   </div>
@@ -46,11 +46,11 @@
   <div class="container narrow">
     <h2>The idea: replay everything, using nothing</h2>
     <p>The verification harness is a completely separate program. It reads the <em>raw price bars</em>
-      and the <em>trade list</em> a backtest produced â€” and then rebuilds every trade by itself, from
+      and the <em>trade list</em> a backtest produced — and then rebuilds every trade by itself, from
       scratch, using nothing from the engine's code. If the engine cheated, fudged a fill, mis-priced
-      a partial, or forgot a commission, the two versions won't match â€” and the harness fails loudly.</p>
-    <p>Every rule is checked both ways. Entry price = bar close Â± half spread Â± slippage. Stop-loss
-      checked before take-profit. Partial closes booked at exactly <span class="mono">round(vol Ã— pct, 2)</span>.
+      a partial, or forgot a commission, the two versions won't match — and the harness fails loudly.</p>
+    <p>Every rule is checked both ways. Entry price = bar close ± half spread ± slippage. Stop-loss
+      checked before take-profit. Partial closes booked at exactly <span class="mono">round(vol × pct, 2)</span>.
       Commission charged on entry and on every closing fill, including partials and the final remainder.
       Nothing is assumed; everything is re-derived and compared to the engine's own records.</p>
   </div>
@@ -60,18 +60,18 @@
   <div class="container narrow">
     <h2>What gets checked</h2>
     <div class="check-grid">
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Determinism</strong><p>Same inputs, same result â€” twice in a row, bit for bit.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Bar metadata</strong><p>Symbol, timeframe, dates and count match what was loaded.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Clean replay</strong><p>Every trade independently rebuilt from raw bars.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Equity exactness</strong><p>Full equity curve matches the replay to Â±$0.03.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Balance reconciliation</strong><p>Final balance = starting balance + net P/L, with costs already included exactly once.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Cost attribution</strong><p>Commission, slippage and spread summed independently on every entry volume.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Daily &amp; monthly sums</strong><p>Reported per-day and per-month P/L add up to the totals.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Exit-day attribution</strong><p>Each trade's net P/L lands on the day it becomes realized â€” no date shuffling.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>18 headline metrics</strong><p>Win rate, profit factor, drawdown, Sharpe, SQNâ€¦ all recomputed independently.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Monte Carlo invariants</strong><p>Paths, bands and probabilities stay consistent with the equity input.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Train/test split hygiene</strong><p>Every train exit happens before every test entry. No leakage.</p></div></div>
-      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Partial take-profits</strong><p>Multi-partial exits replayed and reconciled â€” volume, price and commission.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Determinism</strong><p>Same inputs, same result — twice in a row, bit for bit.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Bar metadata</strong><p>Symbol, timeframe, dates and count match what was loaded.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Clean replay</strong><p>Every trade independently rebuilt from raw bars.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Equity exactness</strong><p>Full equity curve matches the replay to ±$0.03.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Balance reconciliation</strong><p>Final balance = starting balance + net P/L, with costs already included exactly once.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Cost attribution</strong><p>Commission, slippage and spread summed independently on every entry volume.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Daily &amp; monthly sums</strong><p>Reported per-day and per-month P/L add up to the totals.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Exit-day attribution</strong><p>Each trade's net P/L lands on the day it becomes realized — no date shuffling.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>18 headline metrics</strong><p>Win rate, profit factor, drawdown, Sharpe, SQN… all recomputed independently.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Monte Carlo invariants</strong><p>Paths, bands and probabilities stay consistent with the equity input.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Train/test split hygiene</strong><p>Every train exit happens before every test entry. No leakage.</p></div></div>
+      <div class="check-item"><span class="ck-pass">✓</span><div><strong>Partial take-profits</strong><p>Multi-partial exits replayed and reconciled — volume, price and commission.</p></div></div>
     </div>
   </div>
 </section>
@@ -110,13 +110,13 @@
 
 <footer>
   <div class="container foot-inner">
-    <span><img src="../assets/logo.svg" alt=""> <strong>AXIOMSTRAT</strong> â€” backtest. prove. deploy.</span>
+    <span><img src="../assets/logo.svg" alt=""> <strong>AXIOMSTRAT</strong> — backtest. prove. deploy.</span>
     <span>
-      <a href="../download/">Download</a> Â·
-      <a href="../buy/">Licensing</a> Â·
-      <a href="../verify/">Verified</a> Â·
-      <a href="../login/">Web Sync</a> Â·
-      <a href="../privacy/">Privacy</a> Â·
+      <a href="../download/">Download</a> ·
+      <a href="../buy/">Licensing</a> ·
+      <a href="../verify/">Verified</a> ·
+      <a href="../login/">Web Sync</a> ·
+      <a href="../privacy/">Privacy</a> ·
       <a href="../terms/">Terms</a>
     </span>
   </div>
