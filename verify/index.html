@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AxiomStrat â€” how the tool is verified</title>
+<meta name="description" content="How AxiomStrat proves its backtests: an independent replay harness that rechecks every trade from raw price data. 62 checks, 5 strategy scenarios, 0 failures.">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../"><img src="../assets/logo.svg" alt=""><span>AXIOM<span class="accent">STRAT</span></span></a>
+    <div class="nav-links">
+      <a href="../#uses">Uses</a>
+      <a href="../app/">The App</a>
+      <a href="../verify/">Verified</a>
+      <a href="../login/">Web Sync</a>
+      <a href="../download/">Download</a>
+      <a href="../buy/">Licensing</a>
+      <a class="nav-cta" href="../download/">Download</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="container">
+    <h1>How we prove the numbers</h1>
+    <p class="lead">Most backtest tools show you a curve and ask for trust. AxiomStrat's release process uses an
+      independent verification harness whose only job is to catch accounting or execution-model errors.</p>
+    <div class="hero-metrics">
+      <div class="hm"><span class="hmv">62/62</span><span class="hmk">checks pass</span></div>
+      <div class="hm"><span class="hmv">5</span><span class="hmk">strategy scenarios</span></div>
+      <div class="hm"><span class="hmv">Â±$0.03</span><span class="hmk">equity curve tolerance</span></div>
+      <div class="hm"><span class="hmv">0</span><span class="hmk">engine code reused</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container narrow">
+    <h2>The idea: replay everything, using nothing</h2>
+    <p>The verification harness is a completely separate program. It reads the <em>raw price bars</em>
+      and the <em>trade list</em> a backtest produced â€” and then rebuilds every trade by itself, from
+      scratch, using nothing from the engine's code. If the engine cheated, fudged a fill, mis-priced
+      a partial, or forgot a commission, the two versions won't match â€” and the harness fails loudly.</p>
+    <p>Every rule is checked both ways. Entry price = bar close Â± half spread Â± slippage. Stop-loss
+      checked before take-profit. Partial closes booked at exactly <span class="mono">round(vol Ã— pct, 2)</span>.
+      Commission charged on entry and on every closing fill, including partials and the final remainder.
+      Nothing is assumed; everything is re-derived and compared to the engine's own records.</p>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container narrow">
+    <h2>What gets checked</h2>
+    <div class="check-grid">
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Determinism</strong><p>Same inputs, same result â€” twice in a row, bit for bit.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Bar metadata</strong><p>Symbol, timeframe, dates and count match what was loaded.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Clean replay</strong><p>Every trade independently rebuilt from raw bars.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Equity exactness</strong><p>Full equity curve matches the replay to Â±$0.03.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Balance reconciliation</strong><p>Final balance = starting balance + net P/L, with costs already included exactly once.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Cost attribution</strong><p>Commission, slippage and spread summed independently on every entry volume.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Daily &amp; monthly sums</strong><p>Reported per-day and per-month P/L add up to the totals.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Exit-day attribution</strong><p>Each trade's net P/L lands on the day it becomes realized â€” no date shuffling.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>18 headline metrics</strong><p>Win rate, profit factor, drawdown, Sharpe, SQNâ€¦ all recomputed independently.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Monte Carlo invariants</strong><p>Paths, bands and probabilities stay consistent with the equity input.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Train/test split hygiene</strong><p>Every train exit happens before every test entry. No leakage.</p></div></div>
+      <div class="check-item"><span class="ck-pass">âœ“</span><div><strong>Partial take-profits</strong><p>Multi-partial exits replayed and reconciled â€” volume, price and commission.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow">
+    <h2>Tested against the hard cases</h2>
+    <p>Verification isn't one happy-path backtest. The harness runs five scenarios built to stress
+      every mechanism the engine has:</p>
+    <div class="table-wrap">
+    <table class="cmp">
+      <thead><tr><th>Scenario</th><th>What it stresses</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>RSI partials + full costs</td><td>Partial take-profits, commission, slippage, spread, risk % sizing</td><td class="col-axm">322 trades replayed</td></tr>
+        <tr><td>RSI compounding + guardrails</td><td>Compound sizing, daily DD limit, trade caps, session windows</td><td class="col-axm">86 trades replayed</td></tr>
+        <tr><td>MACD, no costs</td><td>Clean fills and simple exits</td><td class="col-axm">191 trades replayed</td></tr>
+        <tr><td>Grid, concurrent positions</td><td>8 positions at once, forced closes at end-of-data</td><td class="col-axm">81 trades replayed</td></tr>
+        <tr><td>Mean Reversion, M5</td><td>Multi-trade momentum entries on fast data</td><td class="col-axm">198 trades replayed</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">And the harness found real bugs. This is the point: it caught an end-of-data bug that
+      left phantom open positions, a partial-take-profit bug that erased original stop/target levels,
+      and a template bug that crashed on certain strategies. Each one was fixed, and the harness now
+      passes 62/62 on every release.</p>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container narrow center">
+    <h2>Trust, but verify</h2>
+    <p class="lead" style="margin-bottom: 26px;">The independent verification harness is run against real MT5 history as part of release QA. Version 0.5.3 passes all 62 checks across five strategy scenarios.</p>
+    <a class="btn primary" href="../download/">Download the verified build</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-inner">
+    <span><img src="../assets/logo.svg" alt=""> <strong>AXIOMSTRAT</strong> â€” backtest. prove. deploy.</span>
+    <span>
+      <a href="../download/">Download</a> Â·
+      <a href="../buy/">Licensing</a> Â·
+      <a href="../verify/">Verified</a> Â·
+      <a href="../login/">Web Sync</a> Â·
+      <a href="../privacy/">Privacy</a> Â·
+      <a href="../terms/">Terms</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".check-item, .section").forEach(function (el) { el.classList.add("reveal"); io.observe(el); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AxiomStrat â€” Privacy Policy</title>
+<meta name="description" content="AxiomStrat privacy policy: everything runs locally on your machine; this website only collects what it needs to license and support your subscription.">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../"><img src="../assets/logo.svg" alt=""><span>AXIOM<span class="accent">STRAT</span></span></a>
+    <div class="nav-links">
+      <a href="../#uses">Uses</a>
+      <a href="../app/">The App</a>
+      <a href="../verify/">Verified</a>
+      <a href="../login/">Web Sync</a>
+      <a href="../download/">Download</a>
+      <a href="../buy/">Buy</a>
+      <a class="nav-cta" href="../login/">Login</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="lead">The short version: everything AxiomStrat does runs on <em>your</em> machine. We
+      never see your strategies, your reports, or your trades.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container narrow">
+    <div class="legal">
+      <h2>What the desktop app collects</h2>
+      <p>Nothing. The app stores your strategies, reports and settings in local folders on your
+        machine. It makes no cloud calls except:</p>
+      <ul>
+        <li>a periodic license check (confirms your key is valid),</li>
+        <li>a Web Sync session that <em>you</em> initiate â€” LAN sessions connect directly, while
+          optional remote sessions pass end-to-end encrypted, short-lived payloads through the
+          configured relay,</li>
+        <li>an update check.</li>
+      </ul>
+
+      <h2>What this website collects</h2>
+      <p>We collect only the details you volunteer when subscribing or contacting us:
+        your name, email address, and payment confirmation. That data is used solely to deliver,
+        renew and support your license.</p>
+
+      <h2>What we never do</h2>
+      <ul>
+        <li>No ads, no cookies for tracking, no profiling.</li>
+        <li>No cloud processing of backtests or live bots.</li>
+        <li>No selling, renting or sharing your data with third parties.</li>
+        <li>No reading of your MT5 terminal beyond the trades you configure AxiomStrat to manage.</li>
+      </ul>
+
+      <h2>Web Sync sessions</h2>
+      <p>A remote pairing session uses AES-256-GCM encryption before data leaves the desktop. The
+        relay receives separate access tokens and encrypted envelopes, but never receives the
+        decryption key, which remains in the secure browser link. Relay session data expires after
+        at most 12 hours. LAN pairing does not use the relay. Anyone who obtains a live secure link
+        can view status and send controls until you rotate it or it expires, so treat it like a password.</p>
+
+      <h2>Payment handling</h2>
+      <p>Payments are processed by our payment provider. We neither see nor store your full card
+        details; any billing records are limited to what's needed for receipts and renewal.</p>
+
+      <h2>Data retention &amp; deletion</h2>
+      <p>You can ask us to delete your account and subscription data at any time by contacting us.
+        Local app files remain yours to keep or delete â€” we have no copy of them.</p>
+
+      <h2>Changes &amp; contact</h2>
+      <p>This policy may be updated; the date below reflects the latest revision. Questions?
+        Contact us through the channels listed on this site.</p>
+      <p class="legal-date">Last revised: 2026-08-03</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-inner">
+    <span><img src="../assets/logo.svg" alt=""> <strong>AXIOMSTRAT</strong> â€” backtest. prove. deploy.</span>
+    <span>
+      <a href="../download/">Download</a> Â·
+      <a href="../buy/">Buy</a> Â·
+      <a href="../verify/">Verified</a> Â·
+      <a href="../login/">Web Sync</a> Â·
+      <a href="../privacy/">Privacy</a> Â·
+      <a href="../terms/">Terms</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

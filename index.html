@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AxiomStrat â€” Build, backtest and deploy MT5 strategies</title>
+<meta name="description" content="A commercial algorithmic trading platform for MetaTrader 5. Build strategies visually, prove them with replay-verified backtests, run them live â€” then check in from your phone.">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top"><img src="assets/logo.svg" alt=""><span>AXIOM<span class="accent">STRAT</span></span></a>
+    <div class="nav-links">
+      <a href="#uses">Uses</a>
+      <a href="app/">The App</a>
+      <a href="verify/">Verified</a>
+      <a href="login/">Web Sync</a>
+      <a href="download/">Download</a>
+      <a href="buy/">Licensing</a>
+      <a class="nav-cta" href="login/">Web Sync setup</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> v0.5.3 Â· encrypted Web Sync</div>
+    <h1>Backtest on your desktop.<br><span class="accent">Control it from anywhere.</span></h1>
+    <p class="hero-sub">AxiomStrat is a commercial algorithmic trading platform for MetaTrader 5.
+      Build strategies visually, prove them with independently verified backtests and Monte Carlo,
+      deploy them live with risk guardrails â€” then monitor and control them from your browser.</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="download/">Download for Windows</a>
+      <a class="btn ghost" href="app/">See the app</a>
+      <a class="btn ghost" href="verify/">How it's verified</a>
+    </div>
+    <div class="hero-metrics">
+      <div class="hm"><span class="hmv" data-count="62">0</span><span class="hmk">independent accuracy checks / 62</span></div>
+      <div class="hm"><span class="hmv" data-count="12">0</span><span class="hmk">built-in strategy templates</span></div>
+      <div class="hm"><span class="hmv" data-count="0" data-suffix="%">0</span><span class="hmk">cloud required for trading</span></div>
+    </div>
+  </div>
+  <div class="ticker">
+    <div class="ticker-track" id="ticker"></div>
+  </div>
+</header>
+
+<section class="section" id="what">
+  <div class="container narrow">
+    <h2>What is AxiomStrat?</h2>
+    <p>It's a full strategy laboratory that runs on your PC. You design a trading strategy in a visual
+      builder â€” RSI reversals, EMA trends, grids, mean reversion, or your own Python logic â€” and
+      AxiomStrat does the hard part: it proves whether the strategy actually works.</p>
+    <p>Every backtest is <strong>replay-verified</strong>. The engine records every trade, and an
+      independent checker replays each one from the raw price data â€” entry, partial take-profits,
+      stop-losses, commissions, slippage and spread â€” and matches the equity curve to the cent.
+      The 62-check release harness is rerun against real MT5 history before a build is published.</p>
+    <p>Then Monte Carlo and train/test splits measure whether your edge is real or curve-fitted â€”
+      and if it survives, you deploy it to MT5 in one click, with drawdown limits, daily trade caps,
+      session windows and an economic-event guard baked in. Because your PC runs the show, you can
+      pair a browser on the same trusted network to monitor deployments and send start, stop or emergency-flatten commands.</p>
+  </div>
+</section>
+
+<section class="section alt" id="why">
+  <div class="container narrow">
+    <h2>Why I built it</h2>
+    <p>I got tired of paying for backtest tools that couldn't explain their own numbers â€” and of
+      strategy marketplaces where "98% win rate" meant "screenshot of a spreadsheet". So I built my
+      own, and I made it honest: the engine audits itself, every trade is replayable, and the
+      verification harness is part of the release process.</p>
+    <p>AxiomStrat is a business, not a hobby. That means it has to prove itself every single day â€”
+      your results, auditable to the cent; your data, kept on your machine; and access controlled
+      by a signed license key.</p>
+    <p class="signature">â€” Shahid</p>
+  </div>
+</section>
+
+<section class="section" id="uses">
+  <div class="container">
+    <h2>What can you do with AxiomStrat?</h2>
+    <p class="lead">Real workflows. Verified results. These are the built-in templates â€” every one of
+      them is yours to rebuild in the visual strategy builder.</p>
+
+    <div class="use-grid">
+
+      <article class="use-card">
+        <div class="mini-chart" data-style="swing"></div>
+        <h3>Swing Reversal</h3>
+        <p class="use-tip"><strong>Partial take-profits:</strong> lock 50% at 2R, trail the rest â€” the engine books
+          the remainder precisely, verified trade by trade.</p>
+        <div class="chips"><span>RSI Mean Reversion</span><span>Partial TPs</span><span>H1+</span></div>
+      </article>
+
+      <article class="use-card">
+        <div class="mini-chart" data-style="grid"></div>
+        <h3>Grid Bot</h3>
+        <p class="use-tip"><strong>Market-neutral:</strong> up to 8 concurrent positions with explicit lot sizing â€”
+          and the equity curve includes every open position, even on the last bar.</p>
+        <div class="chips"><span>Concurrent Positions</span><span>Explicit Volume</span><span>M15</span></div>
+      </article>
+
+      <article class="use-card">
+        <div class="mini-chart" data-style="trend"></div>
+        <h3>Trend Rider</h3>
+        <p class="use-tip"><strong>Volatility filter:</strong> EMA crossovers only fire when the market is actually
+          moving â€” no chop-chasing, no fake signals.</p>
+        <div class="chips"><span>EMA Cross</span><span>Volatility Gate</span><span>H4</span></div>
+      </article>
+
+      <article class="use-card">
+        <div class="mini-chart" data-style="scalp"></div>
+        <h3>Session Scalper</h3>
+        <p class="use-tip"><strong>Trading windows:</strong> run only during London/NY sessions, stop flat at session
+          end, and cap trades per day â€” discipline enforced by software.</p>
+        <div class="chips"><span>Session Windows</span><span>Daily Trade Cap</span><span>M5</span></div>
+      </article>
+
+      <article class="use-card">
+        <div class="mini-chart" data-style="compound"></div>
+        <h3>Compounding Machine</h3>
+        <p class="use-tip"><strong>Guardrails:</strong> risk a fixed % per trade, pause at a daily drawdown limit,
+          and let Monte Carlo tell you the odds before you risk a cent.</p>
+        <div class="chips"><span>Risk % Sizing</span><span>Daily DD Limit</span><span>Any TF</span></div>
+      </article>
+
+      <article class="use-card">
+        <div class="mini-chart" data-style="meanrev"></div>
+        <h3>Mean Reversion Lab</h3>
+        <p class="use-tip"><strong>Find mean-reverting pairs:</strong> custom templates, your own logic, and an
+          equity audit that reconciles balance, P/L, and costs to the cent.</p>
+        <div class="chips"><span>Custom Code</span><span>Replay-Verified</span><span>M5</span></div>
+      </article>
+
+      <article class="use-card">
+        <div class="mini-chart" data-style="trend"></div>
+        <h3>Economic Event Guard</h3>
+        <p class="use-tip"><strong>Protect every entry:</strong> a cached UTC economic calendar blocks
+          new orders around high-impact releases â€” fail-closed if the feed can't refresh. Exits, stops and
+          the kill switch stay live.</p>
+        <div class="chips"><span>News Filter</span><span>Fail-safe</span><span>All TFs</span></div>
+      </article>
+
+      <article class="use-card">
+        <div class="mini-chart" data-style="compound"></div>
+        <h3>Signed Licensing</h3>
+        <p class="use-tip"><strong>One key, instantly:</strong> a signed license key unlocks every feature
+          â€” backtests, Monte Carlo, live deployment and Web Sync. The app checks a signed revocation
+          manifest before licensed live actions, while your strategy and trading data stay local.</p>
+        <div class="chips"><span>Signed Key</span><span>Instant Activate</span><span>Yours</span></div>
+      </article>
+
+    </div>
+    <p class="center-note">This is just the beginning. Every strategy does whatever <em>you</em> want â€” build it in the visual editor, prove it in the lab, ship it to MT5.</p>
+  </div>
+</section>
+
+<section class="section alt" id="websync">
+  <div class="container">
+    <h2>Web Sync â€” your desktop, in your pocket</h2>
+    <p class="lead">No AxiomStrat cloud account. Use a one-time 6-digit code on your LAN, or open
+      a short-lived end-to-end encrypted link to monitor and control your desktop from anywhere.</p>
+
+    <div class="pair-flow">
+      <div class="pf-step">
+        <div class="pf-num">1</div>
+        <div class="pf-title">Desktop creates a secure link</div>
+        <p>The app generates separate encryption and access secrets that expire after 12 hours.</p>
+      </div>
+      <div class="pf-arrow">â†’</div>
+      <div class="pf-step">
+        <div class="pf-num">2</div>
+        <div class="pf-title">Open it on your phone</div>
+        <p>The AES key stays in the link fragment and is never sent to the HTTPS relay.</p>
+      </div>
+      <div class="pf-arrow">â†’</div>
+      <div class="pf-step">
+        <div class="pf-num">3</div>
+        <div class="pf-title">Control your bots from anywhere</div>
+        <p>View live status and send start, stop, or confirmed emergency-flatten commands.</p>
+      </div>
+    </div>
+
+    <div class="ws-features">
+      <div class="wsf"><span class="wsf-icon">â—</span><div><strong>Live bots</strong><p>Equity, open positions, today's P/L â€” refreshed live.</p></div></div>
+      <div class="wsf"><span class="wsf-icon">â—</span><div><strong>Remote controls</strong><p>Start, stop, and emergency-flatten with the same desktop guardrails.</p></div></div>
+      <div class="wsf"><span class="wsf-icon">â—</span><div><strong>Works on your LAN</strong><p>Same Wi-Fi? Pair with a single-use 6-digit code and no relay.</p></div></div>
+      <div class="wsf"><span class="wsf-icon">â—</span><div><strong>Encrypted remotely</strong><p>The relay routes AES-256-GCM ciphertext and never receives the key.</p></div></div>
+      <div class="wsf"><span class="wsf-icon">â—</span><div><strong>Honest by design</strong><p>Your dashboard shows only real data from your app â€” never simulated balances or fake bot results.</p></div></div>
+    </div>
+
+    <div class="center">
+      <a class="btn primary" href="login/">Open Web Sync</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="compare">
+  <div class="container narrow">
+    <h2>Compare</h2>
+    <p class="lead">See how AxiomStrat stacks up against the typical strategy marketplace.</p>
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead>
+          <tr><th></th><th class="col-axm">AxiomStrat</th><th>EA Marketplace</th><th>Prop-firm Dashboards</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Backtest verification</td><td class="col-axm">Every trade replayed &amp; audited</td><td>Trust-me screenshots</td><td>Closed source</td></tr>
+          <tr><td>Monte Carlo / train-test</td><td class="col-axm">Built in</td><td>Rarely</td><td>No</td></tr>
+          <tr><td>Run strategies live</td><td class="col-axm">One click to MT5</td><td>Buy the EA</td><td>Locked to their platform</td></tr>
+          <tr><td>View from your phone</td><td class="col-axm">Web Sync pairing</td><td>No</td><td>Their app, your data</td></tr>
+          <tr><td>News protection</td><td class="col-axm">Economic Event Guard built in</td><td>Usually none</td><td>No</td></tr>
+          <tr><td>Price</td><td class="col-axm">Commercial plans coming soon</td><td>$50â€“$500 "winners"</td><td>% of your profits</td></tr>
+          <tr><td>Your data</td><td class="col-axm">Local or end-to-end encrypted</td><td>On their servers</td><td>On their servers</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="about">
+  <div class="container">
+    <div class="about-cols">
+      <div>
+        <h3>The Mission</h3>
+        <p>Trading tools shouldn't be black boxes. Anyone with a decent idea deserves
+          software that proves its own numbers. AxiomStrat is our answer â€” honest tools for builders.</p>
+      </div>
+      <div>
+        <h3>Your Privacy</h3>
+        <p>Trading and backtests run on your machine, with no telemetry. LAN Web Sync is direct;
+          optional remote Web Sync routes only end-to-end encrypted payloads through your relay.</p>
+      </div>
+      <div>
+        <h3>Signed Licensing</h3>
+        <p>Live deployment is unlocked by an owner-issued signed key, with optional device binding
+          and signed revocation support. Commercial pricing will be announced separately.</p>
+      </div>
+      <div>
+        <h3>Your Way</h3>
+        <p>Twelve built-in strategies or your own Python â€” the visual builder, the lab, and the live
+          bot are all yours to shape.</p>
+      </div>
+    </div>
+    <div class="about-footer">
+      <a href="app/">The App</a>
+      <a href="verify/">Verified</a>
+      <a href="login/">Web Sync</a>
+      <a href="buy/">Licensing</a>
+      <a href="https://github.com/sudobreakstuff/axiomstrat/issues">Report Issue</a>
+    </div>
+    <p class="builtby">built by <strong>Shahid Singh</strong></p>
+    <p class="stack">Python Â· PySide6 Â· MetaTrader 5 Â· Replay-Verified Engine Â· Web Sync Â· License Key</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-inner">
+    <span><img src="assets/logo.svg" alt=""> <strong>AXIOMSTRAT</strong> â€” backtest. prove. deploy.</span>
+    <span>
+      <a href="download/">Download</a> Â·
+      <a href="buy/">Licensing</a> Â·
+      <a href="verify/">Verified</a> Â·
+      <a href="login/">Web Sync</a> Â·
+      <a href="privacy/">Privacy</a> Â·
+      <a href="terms/">Terms</a>
+    </span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AxiomStrat â€” see the application</title>
+<meta name="description" content="See AxiomStrat in action: replay-verified backtests, Monte Carlo analysis, live bot deployment and the strategy builder.">
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../"><img src="../assets/logo.svg" alt=""><span>AXIOM<span class="accent">STRAT</span></span></a>
+    <div class="nav-links">
+      <a href="../#uses">Uses</a>
+      <a href="../app/">The App</a>
+      <a href="../verify/">Verified</a>
+      <a href="../login/">Web Sync</a>
+      <a href="../download/">Download</a>
+      <a href="../buy/">Buy</a>
+      <a class="nav-cta" href="../login/">Login</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="container">
+    <h1>See the application</h1>
+    <p class="lead">Real screenshots of AxiomStrat running â€” not mockups. Every number on these
+      screens was produced by the verified engine.</p>
+  </div>
+</div>
+
+<section class="section shot">
+  <div class="container wide">
+    <div class="shot-card">
+      <img src="../assets/screens/backtest.png" alt="AxiomStrat backtest results" class="shot-img">
+      <div class="shot-caption">
+        <h3>The Backtest Lab</h3>
+        <p>The full results view: price with entry/exit markers, equity curve with peak and drawdown,
+          P/L by trade, monthly breakdown, P/L distribution â€” plus 18 headline metrics and every
+          single trade with its entry/exit prices, costs, and exit reason.</p>
+        <div class="chips"><span>Replay-verified</span><span>Costs itemised</span><span>All trades listed</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <img src="../assets/screens/montecarlo.png" alt="AxiomStrat Monte Carlo analysis" class="shot-img">
+      <div class="shot-caption">
+        <h3>Monte Carlo &amp; Trust Report</h3>
+        <p>50 resampled equity paths with P10â€“P90 band, probability of profit, median final balance,
+          and drawdown risk â€” so you know the odds before you risk a cent. The trust report ties it
+          all together with the train/test split.</p>
+        <div class="chips"><span>50 paths</span><span>P10â€“P90 band</span><span>Train/test split</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <img src="../assets/screens/live.png" alt="AxiomStrat live bot deployments" class="shot-img">
+      <div class="shot-caption">
+        <h3>Live Deployments</h3>
+        <p>Deploy any strategy to MT5 in one click â€” per-bot start/stop, risk sizing, session
+          windows, daily drawdown limits, and a live status feed. Start all, stop all, or babysit
+          one bot from the Web Sync page on your phone.</p>
+        <div class="chips"><span>One-click deploy</span><span>Risk guardrails</span><span>Web Sync</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <img src="../assets/screens/builder.png" alt="AxiomStrat strategy builder" class="shot-img">
+      <div class="shot-caption">
+        <h3>The Strategy Builder</h3>
+        <p>Twelve built-in templates you can tweak â€” RSI Reversal, EMA Cross, MACD, Grid, Mean
+          Reversion â€” or write your own logic. Every parameter is exposed; every template is a
+          starting point, not a cage.</p>
+        <div class="chips"><span>12 templates</span><span>Your own Python</span><span>All params exposed</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <img src="../assets/screens/dashboard.png" alt="AxiomStrat dashboard" class="shot-img">
+      <div class="shot-caption">
+        <h3>Dashboard</h3>
+        <p>Your session at a glance: latest backtest results, live deployment status, equity
+          sparkline, and one-click jumps to every tool.</p>
+        <div class="chips"><span>Latest results</span><span>Live status</span><span>Quick nav</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card">
+      <img src="../assets/screens/settings.png" alt="AxiomStrat settings" class="shot-img">
+      <div class="shot-caption">
+        <h3>Settings</h3>
+        <p>Point at your MT5 terminal, choose where strategies and reports live, set trading
+          defaults, manage your signed license key and configure the Economic Event Guard â€”
+          everything persists locally, nothing leaves your machine.</p>
+        <div class="chips"><span>MT5 path</span><span>License key</span><span>Web Sync</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container narrow">
+    <h2>Numbers you can audit</h2>
+    <p>Every backtest in this app was run through the independent verification harness â€” each trade
+      replayed from raw prices, equity matched to the cent, costs itemised. That's not a marketing
+      claim; it's a test suite. <a href="../verify/">See how we verified it â†’</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-inner">
+    <span><img src="../assets/logo.svg" alt=""> <strong>AXIOMSTRAT</strong> â€” backtest. prove. deploy.</span>
+    <span>
+      <a href="../download/">Download</a> Â·
+      <a href="../buy/">Buy</a> Â·
+      <a href="../verify/">Verified</a> Â·
+      <a href="../login/">Web Sync</a> Â·
+      <a href="../privacy/">Privacy</a> Â·
+      <a href="../terms/">Terms</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll(".shot-card").forEach(function (el) { el.classList.add("reveal"); io.observe(el); });
+})();
+</script>
+</body>
+</html>
