@@ -276,7 +276,6 @@
     if (answer === "KILL") sendCommand("kill", "KILL");
   });
 
-  let lastPositions = [];
   $("open-positions").addEventListener("click", event => {
     const card = event.target.closest(".remote-position");
     if (!card) return;
