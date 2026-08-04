@@ -96,12 +96,19 @@
     $("k-active").textContent = Number(state.active) || 0;
     $("k-trades").textContent = Number(state.trades_today) || 0;
     const deployments = Array.isArray(state.deployments) ? state.deployments : [];
-    $("deployments").innerHTML = deployments.map(item => `
+    $("deployments").innerHTML = deployments.map(item => {
+      const st = String(item.state || "stopped");
+      const scan = item.last_bar ? `<span>Last bar: ${escapeHtml(item.last_bar)}</span>` : "";
+      const news = item.news_state && item.news_state !== "off"
+        ? `<span>News guard: ${escapeHtml(item.news_state)}${Number(item.news_blocks) ? " · " + Number(item.news_blocks) + " blocked" : ""}</span>` : "";
+      return `
       <article class="remote-deployment">
         <div><strong>${escapeHtml(item.symbol || "—")}</strong><span>${escapeHtml(item.strategy || "No strategy")}</span></div>
-        <div><b>${escapeHtml(item.timeframe || "—")}</b><span>magic ${escapeHtml(item.magic || "—")}</span></div>
-        <div><em class="state ${item.state === "running" ? "live" : ""}">${escapeHtml(item.state || "idle")}</em><span>${money(item.daily_pnl)}</span></div>
-      </article>`).join("") || '<p class="empty">No deployments are configured in the desktop app.</p>';
+        <div><b>${escapeHtml(item.timeframe || "—")}</b><span>magic ${escapeHtml(item.magic || "—")}${Number(item.trades_today) ? " · " + Number(item.trades_today) + " trades today" : ""}</span></div>
+        <div><em class="state ${st === "running" ? "live" : st === "error" ? "err" : ""}">${st === "running" ? "scanning" : escapeHtml(st)}</em><span>${money(item.daily_pnl)}</span></div>
+        ${scan || news ? `<div class="remote-extra">${scan}${news}</div>` : ""}
+      </article>`;
+    }).join("") || '<p class="empty">No deployments are configured in the desktop app.</p>';
     $("connection").textContent = state.connected ? "Desktop online · bots active" : "Desktop online";
     $("last-update").textContent = "Updated " + new Date().toLocaleTimeString();
   }
