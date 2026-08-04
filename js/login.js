@@ -8,6 +8,7 @@
   let cryptoKey = null;
   let timer = null;
   let refreshing = false;
+  let lastPositions = [];
 
   function fromB64(value) {
     const normal = String(value).replace(/-/g, "+").replace(/_/g, "/");
@@ -109,6 +110,33 @@
         ${scan || news ? `<div class="remote-extra">${scan}${news}</div>` : ""}
       </article>`;
     }).join("") || '<p class="empty">No deployments are configured in the desktop app.</p>';
+    const positions = Array.isArray(state.open_positions) ? state.open_positions : [];
+    lastPositions = positions;
+    $("open-positions").innerHTML = positions.map((pos, i) => {
+      const side = String(pos.side || "").replace(/Side\.?/, "").toUpperCase();
+      const isBuy = side.startsWith("BUY");
+      return `
+      <article class="remote-position" data-index="${i}">
+        <div class="rp-head">
+          <strong>${escapeHtml(pos.deployment || pos.symbol || "—")}</strong>
+          <em class="rp-side ${isBuy ? "buy" : "sell"}">${escapeHtml(side)}</em>
+          <span>${escapeHtml(pos.strategy || "—")} · ${escapeHtml(pos.timeframe || "—")} · magic ${escapeHtml(pos.magic || "—")}</span>
+        </div>
+        <div class="rp-grid">
+          <span><b>Vol</b>${formatPrice(pos.volume)}</span>
+          <span><b>Entry</b>${formatPrice(pos.entry)}</span>
+          <span><b>Current</b>${formatPrice(pos.current)}</span>
+          <span><b>SL</b>${formatPrice(pos.sl)}</span>
+          <span><b>TP</b>${formatPrice(pos.tp)}</span>
+          <span><b>Ticket</b>#${escapeHtml(pos.ticket || "—")}</span>
+        </div>
+        <div class="rp-foot">
+          ${formatPnl(pos.pnl)}
+          <button class="btn ghost small" data-modify>Modify SL/TP</button>
+          <button class="btn danger small" data-close>Close</button>
+        </div>
+      </article>`;
+    }).join("") || '<p class="empty">No open positions right now.</p>';
     $("connection").textContent = state.connected ? "Desktop online · bots active" : "Desktop online";
     $("last-update").textContent = "Updated " + new Date().toLocaleTimeString();
   }
@@ -144,18 +172,81 @@
     timer = setInterval(refresh, 3000);
   }
 
-  async function sendCommand(command, confirmation) {
+  async function sendCommand(command, confirmation, target) {
     $("command-status").textContent = "Sending encrypted command…";
     try {
-      const envelope = await encrypt({
+      const payload = {
         command, confirmation: confirmation || null,
         command_id: crypto.randomUUID(), at: Math.floor(Date.now() / 1000)
-      }, "command");
+      };
+      if (target) {
+        Object.assign(payload, {
+          symbol: target.symbol || null,
+          magic: target.magic != null ? Number(target.magic) : null,
+          ticket: target.ticket != null ? Number(target.ticket) : null,
+          sl: target.sl != null ? Number(target.sl) : null,
+          tp: target.tp != null ? Number(target.tp) : null
+        });
+      }
+      const envelope = await encrypt(payload, "command");
       await relay("commands", { method: "POST", body: JSON.stringify({ envelope }) });
       $("command-status").textContent = "Command accepted. The desktop will apply it within a few seconds.";
-      setTimeout(refresh, 3500);
+      setTimeout(refresh, 1500);
     } catch (error) {
       $("command-status").textContent = error.message;
+    }
+  }
+
+  function formatPrice(value) {
+    if (value == null || value === "") return "—";
+    const n = Number(value);
+    if (!isFinite(n)) return "—";
+    return String(parseFloat(n.toFixed(6)));
+  }
+
+  function formatPnl(value) {
+    const n = Number(value) || 0;
+    const sign = n >= 0 ? "pos" : "neg";
+    return `<b class="pnl ${sign}">${n >= 0 ? "+" : "−"}$${Math.abs(n).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b>`;
+  }
+
+  async function modifyPosition(position) {
+    const current = Number(position.tp) || "";
+    const slText = prompt(
+      `Set new Stop Loss for ${position.symbol} #${position.ticket}\n` +
+      `Current SL: ${formatPrice(position.sl)}   Current TP: ${formatPrice(position.tp)}\n` +
+      `Enter price, or leave blank to keep. Set 0 to clear.`);
+    if (slText === null) return;
+    const tpText = prompt(
+      `Set new Take Profit for ${position.symbol} #${position.ticket}\n` +
+      `Current SL: ${formatPrice(position.sl)}   Current TP: ${formatPrice(position.tp)}\n` +
+      `Enter price, or leave blank to keep. Set 0 to clear.`);
+    if (tpText === null) return;
+    const target = {
+      symbol: position.symbol, magic: position.magic, ticket: position.ticket,
+      sl: null, tp: null
+    };
+    if (slText.trim() !== "") {
+      const sl = parseFloat(slText);
+      if (!isFinite(sl)) { $("command-status").textContent = "Invalid SL price."; return; }
+      target.sl = sl;
+    }
+    if (tpText.trim() !== "") {
+      const tp = parseFloat(tpText);
+      if (!isFinite(tp)) { $("command-status").textContent = "Invalid TP price."; return; }
+      target.tp = tp;
+    }
+    if (target.sl === null && target.tp === null) return;
+    await sendCommand("modify_position", null, target);
+  }
+
+  async function closePosition(position) {
+    const answer = prompt(
+      `Close ${position.symbol} #${position.ticket} at market? Type CLOSE to confirm.`);
+    if (answer === "CLOSE") {
+      await sendCommand("close_position", null, {
+        symbol: position.symbol, magic: position.magic, ticket: position.ticket
+      });
     }
   }
 
@@ -183,6 +274,17 @@
   $("btn-kill").addEventListener("click", () => {
     const answer = prompt("Emergency flatten stops every bot and closes AxiomStrat-owned positions. Type KILL to continue:");
     if (answer === "KILL") sendCommand("kill", "KILL");
+  });
+
+  let lastPositions = [];
+  $("open-positions").addEventListener("click", event => {
+    const card = event.target.closest(".remote-position");
+    if (!card) return;
+    const index = Number(card.dataset.index);
+    const pos = lastPositions[index];
+    if (!pos) return;
+    if (event.target.closest("[data-modify]")) modifyPosition(pos);
+    else if (event.target.closest("[data-close]")) closePosition(pos);
   });
 
   const fragment = new URLSearchParams(location.hash.slice(1)).get("remote");
