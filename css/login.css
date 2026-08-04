@@ -183,6 +183,29 @@
 .btn.danger { border-color: rgba(255,95,109,.45); background: rgba(255,95,109,.13); color: var(--red); }
 .command-status { min-height: 38px; color: var(--accent) !important; }
 .control-card .danger-note { margin-bottom: 0; color: var(--faded); font-size: 11px; }
+
+/* open positions */
+.position-card { margin-top: 18px; }
+.position-card .section-title { margin-bottom: 14px; }
+.remote-positions { display: grid; gap: 10px; }
+.remote-position { border: 1px solid var(--border); border-radius: 11px; background: var(--panel2); padding: 14px 16px; }
+.rp-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rp-head strong { font-size: 15px; }
+.rp-head span { color: var(--muted); font-size: 11.5px; }
+.rp-side { font: bold 10px var(--mono); padding: 3px 8px; border-radius: 999px; letter-spacing: 1px; text-transform: uppercase; }
+.rp-side.buy { color: var(--accent); border: 1px solid rgba(61,219,209,.4); background: rgba(61,219,209,.08); }
+.rp-side.sell { color: var(--red); border: 1px solid rgba(255,95,109,.45); background: rgba(255,95,109,.1); }
+.rp-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px 14px; margin-top: 12px; }
+.rp-grid span { font-family: var(--mono); font-size: 12px; color: var(--text); }
+.rp-grid b { display: block; font-size: 9.5px; letter-spacing: 1px; color: var(--faded); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; font-family: "Inter", sans-serif; }
+.rp-foot { display: flex; align-items: center; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); }
+.rp-foot .btn.small { padding: 7px 12px; font-size: 11.5px; margin-top: 0; }
+.pnl { font-family: var(--mono); font-size: 15px; margin-right: auto; }
+.pnl.pos { color: var(--accent); }
+.pnl.neg { color: var(--red); }
+@media (max-width: 720px) {
+  .rp-grid { grid-template-columns: repeat(3, 1fr); }
+}
 .remote-trust { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
 .remote-trust article { padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: rgba(15,24,38,.55); }
 .remote-trust strong { font-size: 13px; }
