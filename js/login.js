@@ -104,6 +104,7 @@
         ? `<span>News guard: ${escapeHtml(item.news_state)}${Number(item.news_blocks) ? " · " + Number(item.news_blocks) + " blocked" : ""}</span>` : "";
       return `
       <article class="remote-deployment">
+        <small>${escapeHtml(item.account_profile_name || "MT5")}</small>
         <div><strong>${escapeHtml(item.symbol || "—")}</strong><span>${escapeHtml(item.strategy || "No strategy")}</span></div>
         <div><b>${escapeHtml(item.timeframe || "—")}</b><span>magic ${escapeHtml(item.magic || "—")}${Number(item.trades_today) ? " · " + Number(item.trades_today) + " trades today" : ""}</span></div>
         <div><em class="state ${st === "running" ? "live" : st === "error" ? "err" : ""}">${st === "running" ? "scanning" : escapeHtml(st)}</em><span>${money(item.daily_pnl)}</span></div>
